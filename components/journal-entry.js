@@ -2,10 +2,8 @@
 class JournalEntry extends HTMLElement {
   constructor() {
     super();
-
     // templated HTML content
     const template = document.createElement('template');
-
     template.innerHTML = `
         <style>
             .entry {
@@ -48,13 +46,11 @@ class JournalEntry extends HTMLElement {
             <p class="entry-content"></p>
         </article>
         `;
-
     // create a shadow root for this web component
     this.attachShadow({ mode: 'open' })
     // attach cloned content of template to shadow DOM 
     this.shadowRoot.appendChild(template.content.cloneNode(true))
   }
-
   /*
    * `get` binds a property to a function that will be called when that property is looked up
    * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get
@@ -62,7 +58,6 @@ class JournalEntry extends HTMLElement {
   get entry() {
     return this.getAttribute('entry');
   }
-
   /*
    * `set` binds an object property to a function to be called when there is an attempt to set that property
    * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set
@@ -71,9 +66,10 @@ class JournalEntry extends HTMLElement {
     /* 
      * TODO: set the entry title, date, and content fields in this component
      */
-    
+    this.shadowRoot.querySelector(".entry-title").innerHTML = entry.title;
+    this.shadowRoot.querySelector(".entry-date").innerHTML = entry.date;
+    this.shadowRoot.querySelector(".entry-content").innerHTML = entry.content;
     // CODE GOES HERE
-
     if (entry.image) {
       let entryImage;
       /*
@@ -82,15 +78,13 @@ class JournalEntry extends HTMLElement {
        * 2. set the image src and alt attributes
        * 3. append the image element to the appropriate location in this component
        */
-
       // CODE GOES HERE vvv
-
-
-
-
-
+      entryImage = document.createElement('img');
+      entryImage.className = "entry-image";
+      entryImage.src = entry.image.src;
+      entryImage.alt = entry.image.alt;
+      this.shadowRoot.querySelector(".entry").appendChild(entryImage);
       // CODE GOES HERE ^^^
-
       /* ------------- do not edit this code, it is for your debugging purposes ------------- */
       try {
         window.logCheckpoint('"entryImage"', imgExample, entryImage);
@@ -98,7 +92,6 @@ class JournalEntry extends HTMLElement {
         console.log('variable name changed: ', err);
       }
       /* ------------- do not edit this code, it is for your debugging purposes ------------- */
-
     }
     if (entry.audio) {
       let entryAudio;
@@ -108,18 +101,13 @@ class JournalEntry extends HTMLElement {
        * 2. set the audio src and enable audio controls
        * 3. append the audio element to the appropriate location in this component
        */
-
       // CODE GOES HERE vvv
-
-
-
-
-
-
+        entryAudio = document.createElement('audio');
+        entryAudio.className = "entry-audio";
+        entryAudio.setAttribute("src",entry.audio);
+        entryAudio.setAttribute("controls", true);
+        this.shadowRoot.querySelector(".entry").appendChild(entryAudio);
       // CODE GOES HERE ^^^
-      
-
-      
       /* ------------- do not edit this code, it is for your debugging purposes ------------- */
       try {
         window.logCheckpoint('"entryAudio"', exampleAudio, entryAudio);
@@ -127,10 +115,8 @@ class JournalEntry extends HTMLElement {
         console.log('variable name changed: ', err);
       }
       /* ------------- do not edit this code, it is for your debugging purposes ------------- */
-
     }
     this.setAttribute('entry', entry);
-
     /* ------------- do not edit this code, it is for your debugging purposes ------------- */
     try {
       window.logCheckpoint('"entry"', exampleEntry, entry);
@@ -139,16 +125,13 @@ class JournalEntry extends HTMLElement {
     }
     /* ------------- do not edit this code, it is for your debugging purposes ------------- */
   }
-
 }
-
 /*
  * Define a custom element for the JournalEntry web component, 
  * where 'journal-entry' is the string that represents this element.
  * https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements
  */ 
 customElements.define('journal-entry', JournalEntry);
-
 /**
  * JSON Format:
  * image and audio will only sometimes be there
@@ -164,13 +147,6 @@ customElements.define('journal-entry', JournalEntry);
  *   audio: 'foo.com/bar.mp3'
  * }
  */
-
-
-
-
-
-
-
 /* ------------- do not edit this code, it is for your debugging purposes ------------- */
 const exampleEntry = {
   title: 'entry title',
@@ -184,7 +160,6 @@ const contentStyle = 'font-weight: bold; font-size: 12px';
 const sectionBreak = '%c------------------------------------------------------------------------'
 const imgExample = '<img class="entry-image" src="path/to/image.jpg" alt="some alternate text"/>'
 const exampleAudio = '<audio class="entry-audio" src="https://url-for-source-audio.mp3" controls="">'
-
 window.logCheckpoint = (task, example, value) => {
   if (!window.logCheckpoints) return;
   console.log(`%cTask ${task}: `, titleStyle)

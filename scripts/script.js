@@ -1,10 +1,6 @@
 // script.js
-
 window.logCheckpoints = true // set to true/false to add/remove checkpoint logs to clear room for your own debugging
-
-
 // script.js
-
 document.addEventListener('DOMContentLoaded', () => {
   /* TODO:
    * 1. fetch json results from https://cse110lab6.herokuapp.com/entries
@@ -15,30 +11,18 @@ document.addEventListener('DOMContentLoaded', () => {
    * Hint: don't forget to set the entry property inside JournalEntry to 
    * the current entry for each journal-entry element.
    */
-
-  let url = ""  // SET URL 
-
+  let url = "https://cse110lab6.herokuapp.com/entries"  // SET URL 
   fetch(url)
-    .then( /* FILL IN RESPONSE HANDLING HERE */ )
+    .then(response => response.json())
     .then(entries => {
       entries.forEach((entry) => {
-       
-        let newPost;  
-
-
+        let newPost; 
         // CODE GOES HERE vvv
-        
-
-
-
-
-
-
-
+        let newone =document.createElement("journal-entry");
+        newone.entry = entry;
+        let newmain = document.getElementsByTagName("main")[0];
+        newmain.appendChild(newone);
         // CODE GOES HERE ^^^
-
-
-
         /* ------------- do not edit this code, it is for your debugging purposes ------------- */
         try {
           window.logCheckpoint('"newPost"', exampleNewPost, newPost);
@@ -52,11 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   .catch(error => {
     console.log(`%cresult of fetch is an error: \n"${error}"`, 'color: red');
   });    
-   
 });
-
-
-
 /* ------------- do not edit this code, it is for your debugging purposes ------------- */
 function logCheckpoints() {
   let errorStyle = 'color: red; font-weight: bold';
